@@ -8,7 +8,7 @@ details.
 
 ```
 $ cargo generate --git https://github.com/lily-mara/nu-plugin-template
-$ cd {{ project_name }}
+$ cd {{ project-name }}
 $ cargo build --release # << You must build "release" binaries to get "release"
                         #    versions of nushell to discover your plugin
 $ nu # << You must start a new instance of nushell to discover plugins
