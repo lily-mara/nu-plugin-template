@@ -1,8 +1,6 @@
 use nu_errors::ShellError;
 use nu_plugin::{serve_plugin, Plugin};
-use nu_protocol::{
-    CallInfo, Primitive, ReturnSuccess, ReturnValue, Signature, UntaggedValue, Value,
-};
+use nu_protocol::{CallInfo, ReturnValue, Signature};
 use serde::Serialize;
 
 // This struct represents a single row on your output stream. Fields of this
