@@ -9,7 +9,7 @@ use serde::Serialize;
 // struct will be converted to columns of the output table.
 #[derive(Serialize)]
 struct OutputRow {
-    a: String
+    a: &'static str,
     b: i32,
     c: f64,
 }
@@ -29,19 +29,22 @@ impl Plugin for {{ plugin_struct }} {
         Ok(Signature::build("{{ plugin_name }}").filter())
     }
 
-    fn begin_filter(&mut self, _: CallInfo) -> Result<Vec<ReturnValue>, ShellError> {
-        Ok(vec![])
-    }
-
-    fn filter(&mut self, input: Value) -> Result<Vec<ReturnValue>, ShellError> {
+    fn begin_filter(&mut self, call_info: CallInfo) -> Result<Vec<ReturnValue>, ShellError> {
         Ok(serde_nu::to_success_return_values(
-            vec![OutputRow{
+            vec![OutputRow {
                 a: "This is an example output row",
                 b: 3,
                 c: 99.999,
             }],
-            &input.tag,
-        ))
+            &call_info.name_tag,
+        )
+        .map_err(|e| {
+            ShellError::labeled_error(
+                format!("failed to convert output values: {}", e),
+                "failed to convert output values",
+                &call_info.name_tag,
+            )
+        })?)
     }
 }
 

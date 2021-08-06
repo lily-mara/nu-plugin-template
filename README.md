@@ -7,12 +7,16 @@ details.
 ## Usage:
 
 ```
-$ cargo generate --git https://github.com/lily-mara/nu-plugin-template
-$ cd {{ project-name }}
-$ cargo build --release # << You must build "release" binaries to get "release"
-                        #    versions of nushell to discover your plugin
-$ nu # << You must start a new instance of nushell to discover plugins
-$ {{ plugin_name }}
+> cargo generate --git https://github.com/lily-mara/nu-plugin-template
+> cd {{ project-name }}
+> cargo build
+> nu plugin --load ./target/debug/
+> {{ plugin_name }}
+───┬───────────────────────────────┬───┬─────────
+ # │               a               │ b │    c
+───┼───────────────────────────────┼───┼─────────
+ 0 │ This is an example output row │ 3 │ 99.9990
+───┴───────────────────────────────┴───┴─────────
 ```
 
 ## Config values
