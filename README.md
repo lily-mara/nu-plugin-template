@@ -28,7 +28,8 @@ details.
 - `plugin_name` - all nushell plugins are binaries with the name format
 `nu_plugin_SOMETHING`. This is how nushell discovers them. You need to tell this
 generator what that `SOMETHING` is. If you enter `random` as the plugin name,
-your binary will be called `nu_plugin_random`.
+your binary will be called `nu_plugin_random`, and you will run it by entering
+`random`.
 
 - `plugin_struct` - name of the struct that implements the [`Plugin`] trait from
 `nu-plugin` crate.
