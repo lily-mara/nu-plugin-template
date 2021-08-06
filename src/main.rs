@@ -20,6 +20,21 @@ impl {{ plugin_struct }} {
         Self {
         }
     }
+
+    fn do_begin_filter(&mut self, call_info: &CallInfo) -> Result<Vec<OutputRow>, anyhow::Error> {
+        Ok(vec![
+            OutputRow {
+                a: "This is an example output row",
+                b: 3,
+                c: 99.999,
+            },
+            OutputRow {
+                a: "This is another example output row",
+                b: 99431,
+                c: 0.3,
+            },
+        ])
+    }
 }
 
 impl Plugin for {{ plugin_struct }} {
@@ -28,21 +43,23 @@ impl Plugin for {{ plugin_struct }} {
     }
 
     fn begin_filter(&mut self, call_info: CallInfo) -> Result<Vec<ReturnValue>, ShellError> {
-        Ok(serde_nu::to_success_return_values(
-            vec![OutputRow {
-                a: "This is an example output row",
-                b: 3,
-                c: 99.999,
-            }],
-            &call_info.name_tag,
-        )
-        .map_err(|e| {
+        let rows = self.do_begin_filter(&call_info).map_err(|e| {
+            ShellError::labeled_error(
+                format!("{{ plugin_name }} failed: {}", e),
+                "error",
+                &call_info.name_tag,
+            )
+        })?;
+
+        let values = serde_nu::to_success_return_values(rows, &call_info.name_tag).map_err(|e| {
             ShellError::labeled_error(
                 format!("failed to convert output values: {}", e),
                 "failed to convert output values",
                 &call_info.name_tag,
             )
-        })?)
+        })?;
+
+        Ok(values)
     }
 }
 
