@@ -10,7 +10,11 @@ details.
 > cargo generate --git https://github.com/lily-mara/nu-plugin-template
 > cd {{ project-name }}
 > cargo build
+
+# You only need to run this once per nushell session, or after updating the
+# signature of the plugin.
 > nu plugin --load ./target/debug/
+
 > {{ plugin_name }}
 ───┬───────────────────────────────┬───┬─────────
  # │               a               │ b │    c
